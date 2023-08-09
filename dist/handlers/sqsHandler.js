@@ -19,18 +19,17 @@ aws_sdk_1.default.config.update({ region: process.env.AWS_REGION });
 const sqs = new aws_sdk_1.default.SQS({ apiVersion: "2012-11-05" });
 function pollSQSQueue() {
     return __awaiter(this, void 0, void 0, function* () {
-        let i = 0;
         const params = {
             QueueUrl: process.env.QUEUE_URL || "",
             MaxNumberOfMessages: 10,
             WaitTimeSeconds: 20,
         };
         while (true) {
-            i++;
             try {
                 const data = yield sqs.receiveMessage(params).promise();
                 if (data.Messages) {
                     for (const message of data.Messages) {
+                        console.log(message);
                         yield (0, crawlerHandler_1.processScrapeRequest)(message);
                         yield sqs
                             .deleteMessage({

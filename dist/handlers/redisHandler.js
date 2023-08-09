@@ -17,7 +17,6 @@ const redisdb_1 = __importDefault(require("../db/redisdb"));
 function setDataToRedis(scrapedData) {
     return __awaiter(this, void 0, void 0, function* () {
         try {
-            console.log(scrapedData);
             const message = JSON.stringify(scrapedData);
             redisdb_1.default.publish("crawler-jobs", message);
         }
